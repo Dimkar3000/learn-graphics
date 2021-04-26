@@ -1,0 +1,7 @@
+{
+  "clang-format.executable":"clang-format",
+  "clang-tidy.lintOnSave": true,
+  "clang-tidy.executable": "clang-tidy"
+
+
+}
