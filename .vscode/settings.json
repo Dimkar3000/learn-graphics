@@ -1,7 +1,9 @@
 {
   "clang-format.executable":"clang-format",
   "clang-tidy.lintOnSave": true,
-  "clang-tidy.executable": "clang-tidy"
+  "clang-tidy.executable": "clang-tidy",
+  "C_Cpp.dimInactiveRegions": false,
+  "C_Cpp.errorSquiggles": "Disabled"
 
 
 }

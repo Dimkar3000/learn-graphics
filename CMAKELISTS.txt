@@ -1,18 +1,31 @@
 cmake_minimum_required(VERSION 3.20)
 
-project(OPENGLLEARN VERSION 0.0.1 LANGUAGES C CXX)
+project(Erupt VERSION 0.0.1 LANGUAGES C CXX)
+
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_GENERATOR_PLATFORM x64)
-add_executable(main "source/main.cpp")
+add_compile_definitions(ERUPT_PLATFORM_WINDOWS)
+
+include_directories("src")
+
+# Engine
+aux_source_directory("src/erupt/" ENGINE_SRC)
+add_library(erupt SHARED ${ENGINE_SRC})
+target_compile_definitions(erupt PRIVATE ERUPT_BUILD_DLL)
+
+#SandBox
+aux_source_directory("src/sandbox/" SANDBOX_SRC)
+add_executable(sandbox ${SANDBOX_SRC})
+target_link_libraries(sandbox erupt)
 
 # glfw
 add_subdirectory(vendor/glfw EXCLUDE_FROM_ALL)
-target_link_libraries(main PRIVATE glfw)
+target_link_libraries(erupt PRIVATE glfw)
 
 # glm
 add_subdirectory(vendor/glm EXCLUDE_FROM_ALL)
-target_link_libraries(main PRIVATE glm)
+target_link_libraries(erupt PRIVATE glm)
 
 # glad
 add_subdirectory(vendor/glad EXCLUDE_FROM_ALL)
-target_link_libraries(main PRIVATE glad)
+target_link_libraries(erupt PRIVATE glad)
