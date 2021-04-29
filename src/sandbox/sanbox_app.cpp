@@ -157,5 +157,6 @@ public:
 
 Erupt::Application *Erupt::CreateApplication()
 {
+  ERUPT_INFO("Client Logger works={0}", 42);
   return new SandBoxApplication();
 }

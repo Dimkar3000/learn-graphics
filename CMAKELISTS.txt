@@ -7,6 +7,7 @@ set(CMAKE_GENERATOR_PLATFORM x64)
 add_compile_definitions(ERUPT_PLATFORM_WINDOWS)
 
 include_directories("src")
+include_directories("vendor/spdlog/include")
 
 # Engine
 aux_source_directory("src/erupt/" ENGINE_SRC)
@@ -29,3 +30,7 @@ target_link_libraries(erupt PRIVATE glm)
 # glad
 add_subdirectory(vendor/glad EXCLUDE_FROM_ALL)
 target_link_libraries(erupt PRIVATE glad)
+
+#spdlog
+add_subdirectory(vendor/spdlog EXCLUDE_FROM_ALL)
+target_link_libraries(erupt PRIVATE spdlog)
