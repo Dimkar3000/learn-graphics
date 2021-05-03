@@ -1,15 +1,17 @@
 #pragma once
-#include "core.hpp"
+#include "erupt/core/base.hpp"
 #include "spdlog/spdlog.h"
-#include <memory>
+#include "spdlog/fmt/ostr.h"
+
 namespace Erupt
 {
   class ERUPT_API Log
   {
   public:
     static void Init();
-    inline static std::shared_ptr<spdlog::logger> &GetCoreLogger() { return s_CoreLogger; }
-    inline static std::shared_ptr<spdlog::logger> &GetClientLogger() { return s_ClientLogger; }
+
+    inline static std::shared_ptr<spdlog::logger> &GetCoreLogger();
+    inline static std::shared_ptr<spdlog::logger> &GetClientLogger();
 
   private:
     static std::shared_ptr<spdlog::logger> s_CoreLogger;

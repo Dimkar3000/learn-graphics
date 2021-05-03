@@ -1,5 +1,5 @@
 #pragma once
-#include "erupt.hpp"
+
 #ifdef ERUPT_PLATFORM_WINDOWS
 
 /// Client Definition

@@ -4,33 +4,66 @@ project(Erupt VERSION 0.0.1 LANGUAGES C CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_GENERATOR_PLATFORM x64)
-add_compile_definitions(ERUPT_PLATFORM_WINDOWS)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
-include_directories("src")
-include_directories("vendor/spdlog/include")
+include_directories( "src")
+include_directories( "vendor/spdlog/include")
+include_directories( "vendor/glfw/include")
+
+# Dependencies
+add_subdirectory("vendor/glfw" EXCLUDE_FROM_ALL)
+add_subdirectory("vendor/glm" EXCLUDE_FROM_ALL)
+add_subdirectory("vendor/glad" EXCLUDE_FROM_ALL)
+add_subdirectory("vendor/spdlog" EXCLUDE_FROM_ALL)
+
+if(NOT TARGET spdlog)
+    # Stand-alone build
+    find_package(spdlog REQUIRED)
+endif()
+
+option(PLATFORM_WINDOWS "Enable windows platform" ON)
+if(PLATFORM_WINDOWS)
+  message("Enabled widows platform")
+  add_compile_definitions(ERUPT_PLATFORM_WINDOWS)
+  aux_source_directory("src/platform/windows" ENGINE_SRC_WINDOWS)
+endif()
+
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+  add_compile_definitions(ERUPT_ENABLE_ASSERTS)
+endif()
+
 
 # Engine
-aux_source_directory("src/erupt/" ENGINE_SRC)
-add_library(erupt SHARED ${ENGINE_SRC})
-target_compile_definitions(erupt PRIVATE ERUPT_BUILD_DLL)
+aux_source_directory("src/erupt" ENGINE_SRC_BASE)
+aux_source_directory("src/erupt/core" ENGINE_SRC_CORE)
+aux_source_directory("src/erupt/events" ENGINE_SRC_EVENTS)
 
-#SandBox
+add_library(erupt SHARED 
+  ${ENGINE_SRC_BASE} 
+  ${ENGINE_SRC_CORE} 
+  ${ENGINE_SRC_EVENTS} 
+  ${ENGINE_SRC_WINDOWS}
+)
+target_compile_definitions(erupt PUBLIC ERUPT_PLATFORM_WINDOWS)
+target_compile_definitions(erupt PUBLIC ERUPT_BUILD_DLL)
+target_include_directories(erupt PUBLIC "src/erupt")
+target_precompile_headers(erupt PUBLIC "src/erupt_pch.hpp")
+
+
+# SandBox
 aux_source_directory("src/sandbox/" SANDBOX_SRC)
 add_executable(sandbox ${SANDBOX_SRC})
-target_link_libraries(sandbox erupt)
+target_compile_definitions(sandbox PUBLIC ERUPT_PLATFORM_WINDOWS)
+target_include_directories(sandbox PUBLIC "src/sandbox")
+find_package(OpenGL REQUIRED)
 
-# glfw
-add_subdirectory(vendor/glfw EXCLUDE_FROM_ALL)
-target_link_libraries(erupt PRIVATE glfw)
 
-# glm
-add_subdirectory(vendor/glm EXCLUDE_FROM_ALL)
-target_link_libraries(erupt PRIVATE glm)
-
-# glad
-add_subdirectory(vendor/glad EXCLUDE_FROM_ALL)
-target_link_libraries(erupt PRIVATE glad)
-
-#spdlog
-add_subdirectory(vendor/spdlog EXCLUDE_FROM_ALL)
-target_link_libraries(erupt PRIVATE spdlog)
+#Linking
+target_link_libraries(erupt 
+  PRIVATE spdlog::spdlog
+  PRIVATE glfw
+  PRIVATE glm
+  PRIVATE glad
+)
+target_link_libraries(sandbox PUBLIC erupt )
