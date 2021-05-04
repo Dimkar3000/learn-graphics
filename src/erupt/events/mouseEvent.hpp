@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Erupt/Events/Event.h"
-#include "erupt/core/mousecodes.h"
+#include "erupt/events/event.hpp"
+#include "erupt/core/mousecodes.hpp"
 
 namespace Erupt
 {

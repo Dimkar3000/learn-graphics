@@ -8,22 +8,19 @@ namespace Erupt
   enum class EventType
   {
     None = 0,
-
     WindowClose,
     WindowResize,
     WindowFocus,
-    WincowLostFocus,
+    WindowLostFocus,
     WindowMoved,
-
     AppTick,
     AppUpdate,
     AppRender,
-
     KeyPressed,
     KeyReleased,
-
+    KeyTyped,
     MouseButtonPressed,
-    MouseButtonreleased,
+    MouseButtonReleased,
     MouseMoved,
     MouseScrolled
   };

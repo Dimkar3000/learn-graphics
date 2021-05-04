@@ -4,7 +4,6 @@
 #include "erupt/events/event.hpp"
 #include "erupt/core/window.hpp"
 
-
 namespace Erupt
 {
   class ERUPT_API Application
@@ -14,6 +13,7 @@ namespace Erupt
     virtual ~Application();
 
     void Run();
+    void OnEvent(Event &e);
 
   private:
     std::unique_ptr<Window> m_Window;
