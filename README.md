@@ -6,7 +6,12 @@ This project will track me progress at learning to create a game engine from str
 
 - [x] Project Init and Library Scouting
 - [x] Logging System (spdlog)
-- [ ] Input System
+- [x] Input System
+- [ ] Proper Libary Integration
+  - [x] GLFW
+  - [x] GLAD
+  - [x] Spdlog
+  - [ ] GLM (implemented but not in use)
 - [ ] Finally Some Rendering
 - [ ] More...
 

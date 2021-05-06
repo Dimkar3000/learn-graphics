@@ -26,6 +26,7 @@ option(PLATFORM_WINDOWS "Enable windows platform" ON)
 if(PLATFORM_WINDOWS)
   message("Enabled widows platform")
   add_compile_definitions(ERUPT_PLATFORM_WINDOWS)
+  add_compile_definitions(GLFW_INCLUDE_NONE)
   aux_source_directory("src/platform/windows" ENGINE_SRC_WINDOWS)
 endif()
 

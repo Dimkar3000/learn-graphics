@@ -5,7 +5,6 @@
 #include "erupt/log.hpp"
 
 #include <glad/glad.h>
-#include <GLFW/glfw3.h>
 
 namespace Erupt
 {
@@ -20,8 +19,10 @@ namespace Erupt
 
   void Application::Run()
   {
+    glClearColor(1, 0, 1, 1);
     while (m_Running)
     {
+      glClear(GL_COLOR_BUFFER_BIT);
       m_Window->OnUpdate();
     }
   }

@@ -5,7 +5,7 @@
 #include "erupt/events/mouseEvent.hpp"
 #include "erupt/events/keyEvent.hpp"
 #include "erupt/events/applicationEvent.hpp"
-
+#include "glad/glad.h"
 namespace Erupt
 {
   static void GLFWFailCallback(int error, const char *description)
@@ -43,11 +43,14 @@ namespace Erupt
       int success = glfwInit();
       ERUPT_CORE_ASSERT(success, "Could not intialize GLFW!");
       glfwSetErrorCallback(GLFWFailCallback);
-          s_GLFWInitialized = true;
+      s_GLFWInitialized = true;
     }
 
     m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
     glfwMakeContextCurrent(m_Window);
+    int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+    ERUPT_CORE_ASSERT(status, "Could not intialize GLAD!");
+
     glfwSetWindowUserPointer(m_Window, &m_Data);
     SetVSync(true);
 
